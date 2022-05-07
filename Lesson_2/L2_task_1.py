@@ -4,5 +4,31 @@
 Завершение программы должно выполняться при вводе символа '0' в качестве знака операции. Если пользователь вводит
 неверный знак (не '0', '+', '-', '*', '/'), программа должна сообщать об ошибке и снова запрашивать знак операции.
 Также она должна сообщать пользователю о невозможности деления на ноль, если он ввел его в качестве делителя.
-
+https://drive.google.com/file/d/1dwhQvcBzeoUEK2onaSP5wYbwg6QopT7-/view?usp=sharing
 """
+
+
+def calc(x, y, z):
+    if z == "+":
+        return x + y
+    if z == "-":
+        return x - y
+    if z == "*":
+        return x * y
+    if y != 0:
+        return x / y
+    return "Деление на ноль!!!"
+
+
+while True:
+    operand_u = input("Введите знак операции или 0 для выхода: ")
+    if operand_u == "0":
+        break
+    if (operand_u != "+") and (operand_u != "-") and (operand_u != "*") and (operand_u != "/"):
+        print("Неверный знак операции")
+
+    else:
+        print("Введите два вещественных числа")
+        num_1 = float(input("Введите первое число: "))
+        num_2 = float(input("Введите второе число: "))
+        print(calc(num_1, num_2, operand_u))
