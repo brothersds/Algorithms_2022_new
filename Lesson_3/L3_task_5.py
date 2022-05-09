@@ -12,3 +12,13 @@ ls = [random.randint(MIN_ITEM, MAX_ITEM) for _ in range(SIZE)]
 print(ls)
 
 # решение задачи
+num = float('-inf')
+index_num = 0
+for index, item in enumerate(ls):
+    if num < item < 0:
+        num = item
+        index_num = index
+if num == float('-inf'):
+    print("Решения нет")
+else:
+    print(f'Макс. отрицательное число {num} под индексом {index_num}')
