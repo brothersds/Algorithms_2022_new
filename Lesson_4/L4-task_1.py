@@ -21,7 +21,7 @@ import random
 import timeit
 import cProfile
 
-SIZE = 10
+SIZE = 256
 MIN_ITEM = 0
 array = [random.randint(MIN_ITEM, SIZE // 2) for _ in range(SIZE)]
 print(array)
@@ -39,45 +39,46 @@ def func_one(arr, res={}, repeat=[1], item=[]):
             if repeat[len(repeat) - 1] < res[first_el]:
                 item.clear(), item.append(first_el)
                 repeat.clear(), repeat.append(res[first_el])
-        func_one(arr[:len(arr) - 1])
+            func_one(arr[:len(arr) - 1])
         return item, repeat
 
 
 result_1 = func_one(array)
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 2 // 2) for _ in range(2)])', number=100, globals=globals()))       # 0.00026350699954491574
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 4 // 2) for _ in range(4)])', number=100, globals=globals()))       # 0.0004565919998640311
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 8 // 2) for _ in range(8)])', number=100, globals=globals()))       # 0.0010487099998499616
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 16 // 2) for _ in range(16)])', number=100, globals=globals()))     # 0.0014971609998610802
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 32 // 2) for _ in range(32)])', number=100, globals=globals()))     # 0.0030309499998111278
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 64 // 2) for _ in range(64)])', number=100, globals=globals()))     # 0.006594675000087591
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 128 // 2) for _ in range(128)])', number=100, globals=globals()))   # 0.013830831000632315
-print(timeit.timeit('func_one([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])', number=100, globals=globals()))   # 0.04301830099939252
+if result_1 is None:
+    print("Нет совпадений")
+else:
+    print(f'Число {result_1[0][0]} встречается {result_1[1][0]} раз(-a)')
+
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 2 // 2) for _ in range(2)])', number=10000, globals=globals()))       # 0.025712837999890326
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 4 // 2) for _ in range(4)])', number=10000, globals=globals()))       # 0.04376020300014716
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 8 // 2) for _ in range(8)])', number=10000, globals=globals()))       # 0.08201802300004601
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 16 // 2) for _ in range(16)])', number=10000, globals=globals()))     # 0.159077735999972
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 32 // 2) for _ in range(32)])', number=10000, globals=globals()))     # 0.3152050539999891
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 64 // 2) for _ in range(64)])', number=10000, globals=globals()))     # 0.6332070539999677
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 128 // 2) for _ in range(128)])', number=10000, globals=globals()))   # 1.2960195970001678
+print(timeit.timeit('func_one([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])', number=10000, globals=globals()))   # 2.8366463149998253
 cProfile.run('func_one([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])')
 
-"""         3062 function calls (2806 primitive calls) in 0.001 seconds
+"""         3103 function calls (2847 primitive calls) in 0.001 seconds
 
    Ordered by: standard name
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
         1    0.000    0.000    0.000    0.000 <string>:1(<listcomp>)
         1    0.000    0.000    0.001    0.001 <string>:1(<module>)
-    257/1    0.000    0.000    0.000    0.000 L4-task_1.py:29(func_one)
+    257/1    0.000    0.000    0.000    0.000 L4-task_1.py:32(func_one)
       256    0.000    0.000    0.000    0.000 random.py:200(randrange)
       256    0.000    0.000    0.000    0.000 random.py:244(randint)
       256    0.000    0.000    0.000    0.000 random.py:250(_randbelow_with_getrandbits)
         1    0.000    0.000    0.001    0.001 {built-in method builtins.exec}
      1025    0.000    0.000    0.000    0.000 {built-in method builtins.len}
-        2    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
+        6    0.000    0.000    0.000    0.000 {method 'append' of 'list' objects}
       256    0.000    0.000    0.000    0.000 {method 'bit_length' of 'int' objects}
-        2    0.000    0.000    0.000    0.000 {method 'clear' of 'list' objects}
+        6    0.000    0.000    0.000    0.000 {method 'clear' of 'list' objects}
         1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
       256    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
-      492    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}"""
+      525    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}"""
 
-if result_1 is None:
-    print("Нет совпадений")
-else:
-    print(f'Число {result_1[0][0]} встречается {result_1[1][0]} раз(-a)')
 
 # решение задачи 2
 
@@ -95,35 +96,35 @@ def func_two(arr, count = {}, repeat = 1, num = None):
 
 
 result_2 = func_two(array)
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 2 // 2) for _ in range(2)])', number=100, globals=globals()))       # 0.00016694599980837665
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 4 // 2) for _ in range(4)])', number=100, globals=globals()))       # 0.00028080399988539284
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 8 // 2) for _ in range(8)])', number=100, globals=globals()))       # 0.0005305389995555743
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 16 // 2) for _ in range(16)])', number=100, globals=globals()))     # 0.001022504000502522
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 32 // 2) for _ in range(32)])', number=100, globals=globals()))     # 0.0020479909999266965
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 64 // 2) for _ in range(64)])', number=100, globals=globals()))     # 0.0049278070000582375
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 128 // 2) for _ in range(128)])', number=100, globals=globals()))   # 0.008066028000030201
-print(timeit.timeit('func_two([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])', number=100, globals=globals()))   # 0.01657246299964754
+if result_2 is None:
+    print("Нет совпадений")
+else:
+    print(f'Число {result_2[0]} встречается {result_2[1]} раз(-a)')
+
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 2 // 2) for _ in range(2)])', number=10000, globals=globals()))       # 0.015949405000128536
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 4 // 2) for _ in range(4)])', number=10000, globals=globals()))       # 0.02645604600002116
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 8 // 2) for _ in range(8)])', number=10000, globals=globals()))       # 0.05082072499999413
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 16 // 2) for _ in range(16)])', number=10000, globals=globals()))     # 0.09753058000001147
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 32 // 2) for _ in range(32)])', number=10000, globals=globals()))     # 0.2018325740000364
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 64 // 2) for _ in range(64)])', number=10000, globals=globals()))     # 0.38526937599999656
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 128 // 2) for _ in range(128)])', number=10000, globals=globals()))   # 0.7589551710000251
+print(timeit.timeit('func_two([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])', number=10000, globals=globals()))   # 1.5142625460000545
 cProfile.run('func_two([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])')
-"""         1542 function calls in 0.000 seconds
+"""         1538 function calls in 0.000 seconds
 
    Ordered by: standard name
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
         1    0.000    0.000    0.000    0.000 <string>:1(<listcomp>)
         1    0.000    0.000    0.000    0.000 <string>:1(<module>)
-        1    0.000    0.000    0.000    0.000 L4-task_1.py:61(func_two)
+        1    0.000    0.000    0.000    0.000 L4-task_1.py:86(func_two)
       256    0.000    0.000    0.000    0.000 random.py:200(randrange)
       256    0.000    0.000    0.000    0.000 random.py:244(randint)
       256    0.000    0.000    0.000    0.000 random.py:250(_randbelow_with_getrandbits)
         1    0.000    0.000    0.000    0.000 {built-in method builtins.exec}
       256    0.000    0.000    0.000    0.000 {method 'bit_length' of 'int' objects}
         1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
-      513    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}"""
-
-if result_2 is None:
-    print("Нет совпадений")
-else:
-    print(f'Число {result_2[0]} встречается {result_2[1]} раз(-a)')
+      509    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}"""
 
 # решение задачи 3
 
@@ -143,33 +144,33 @@ def func_three(arr, count = {}, repeat = 1, n = 0, num = 0):
 
 
 result_3 = func_three(array)
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 2 // 2) for _ in range(2)])', number=100, globals=globals())) # 0.00018386000010650605
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 4 // 2) for _ in range(4)])', number=100, globals=globals())) # 0.00031163600033323746
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 8 // 2) for _ in range(8)])', number=100, globals=globals())) # 0.0005824689997098176
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 16 // 2) for _ in range(16)])', number=100, globals=globals())) # 0.0011469270002635312
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 32 // 2) for _ in range(32)])', number=100, globals=globals())) # 0.0022144159993331414
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 64 // 2) for _ in range(64)])', number=100, globals=globals())) # 0.004459098000552331
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 128 // 2) for _ in range(128)])', number=100, globals=globals())) # 0.00893006099977356
-print(timeit.timeit('func_three([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])', number=100, globals=globals())) # 0.021684649999770045
+if result_3 is None:
+    print("Нет совпадений")
+else:
+    print(f'Число {result_3[0]} встречается {result_3[1]} раз(-a)')
+
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 2 // 2) for _ in range(2)])', number=10000, globals=globals())) # 0.017393726000136667
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 4 // 2) for _ in range(4)])', number=10000, globals=globals())) # 0.02905826000005618
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 8 // 2) for _ in range(8)])', number=10000, globals=globals())) # 0.055166103999908955
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 16 // 2) for _ in range(16)])', number=10000, globals=globals())) # 0.10551767499987363
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 32 // 2) for _ in range(32)])', number=10000, globals=globals())) # 0.21629688200005148
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 64 // 2) for _ in range(64)])', number=10000, globals=globals())) # 0.41261344600002303
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 128 // 2) for _ in range(128)])', number=10000, globals=globals())) # 0.8170351680000749
+print(timeit.timeit('func_three([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])', number=10000, globals=globals())) # 1.6486714630000279
 cProfile.run('func_three([random.randint(MIN_ITEM, 256 // 2) for _ in range(256)])')
-"""         1786 function calls in 0.001 seconds
+"""         1780 function calls in 0.000 seconds
 
    Ordered by: standard name
 
    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
         1    0.000    0.000    0.000    0.000 <string>:1(<listcomp>)
-        1    0.000    0.000    0.001    0.001 <string>:1(<module>)
-        1    0.000    0.000    0.000    0.000 L4-task_1.py:92(func_three)
+        1    0.000    0.000    0.000    0.000 <string>:1(<module>)
+        1    0.000    0.000    0.000    0.000 L4-task_1.py:132(func_three)
       256    0.000    0.000    0.000    0.000 random.py:200(randrange)
       256    0.000    0.000    0.000    0.000 random.py:244(randint)
       256    0.000    0.000    0.000    0.000 random.py:250(_randbelow_with_getrandbits)
-        1    0.000    0.000    0.001    0.001 {built-in method builtins.exec}
+        1    0.000    0.000    0.000    0.000 {built-in method builtins.exec}
       257    0.000    0.000    0.000    0.000 {built-in method builtins.len}
       256    0.000    0.000    0.000    0.000 {method 'bit_length' of 'int' objects}
         1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
-      500    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}"""
-
-if result_3 is None:
-    print("Нет совпадений")
-else:
-    print(f'Число {result_3[0]} встречается {result_3[1]} раз(-a)')
+      494    0.000    0.000    0.000    0.000 {method 'getrandbits' of '_random.Random' objects}"""
