@@ -14,10 +14,10 @@ def factory_input(number, factory_array=[]):
             break
         else:
             factory_name = input(f'Введите название {i + 1}-го предприятия: ')
-            income_q1 = int(input("Введите прибыль за первый картал: "))
-            income_q2 = int(input("Введите прибыль за второй картал: "))
-            income_q3 = int(input("Введите прибыль за третий картал: "))
-            income_q4 = int(input("Введите прибыль за четвертый картал: "))
+            income_q1 = int(input("Введите прибыль за I картал:     "))
+            income_q2 = int(input("Введите прибыль за II картал:    "))
+            income_q3 = int(input("Введите прибыль за III картал:   "))
+            income_q4 = int(input("Введите прибыль за IV картал:    "))
             income_year = income_q1 + income_q2 + income_q3 + income_q1
             total_income += income_year
             factory_array.append(Factory(factory_name=factory_name, income_q1=income_q1, income_q2=income_q2,\
