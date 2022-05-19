@@ -14,9 +14,7 @@ def func_hex_sum(hex_dec, dec_hex, x, y):
         x, y = deque(x), deque(y)
     else:
         y, x = deque(x), deque(y)
-
     transfer_number = 0
-
     for i in range(len(x)):
         if not y:
             res = int(hex_dec[x.pop()]) + transfer_number
@@ -42,8 +40,8 @@ hexdec = dict(zip((task_dec[:10] + task_hex), task_dec))
 dechex = dict(zip(task_dec, (task_dec[:10] + task_hex)))
 # a = list('12FD')
 # b = list('234')
-a = list('12FD')
-b= list('234')
+a = list('12F')
+b= list('234D')
 
 result_sum = func_hex_sum(hexdec, dechex, a, b)
 print('Сумма чисел равна', f'{result_sum}')
