@@ -9,7 +9,7 @@ from collections import deque
 
 
 def func_hex_sum(hex_dec, dec_hex, x, y):
-    result_sum = deque()
+    res_sum = deque()
     if len(x) > len(y):
         x, y = deque(x), deque(y)
     else:
@@ -21,30 +21,47 @@ def func_hex_sum(hex_dec, dec_hex, x, y):
         else:
             res = int(hex_dec[x.pop()]) + int(hex_dec[y.pop()]) + transfer_number
         transfer_number = 0
-        if res > 16:
-            result_sum.appendleft(dec_hex[str(res - 16)])
+        if res >= 16:
+            res_sum.appendleft(dec_hex[str(res - 16)])
             transfer_number = 1
         else:
-            result_sum.appendleft(dec_hex[str(res)])
+            res_sum.appendleft(dec_hex[str(res)])
     if transfer_number == 1:
-        result_sum.appendleft('1')
-    return list(result_sum)
+        res_sum.appendleft('1')
+    return list(res_sum)
 
 
-# a = list(input('Введите 1-е шестнадцатиричное число: ').upper())
-# b = list(input('Введите 2-е шестнадцатиричное число: ').upper())
-# print(a, b)
+def func_to_dec(hex_dec, x):
+    decimal_number = 0
+    length_hex = len(x) - 1
+    for digit in x:
+        decimal_number += int(hex_dec[digit])*16**length_hex
+        length_hex -= 1
+    return decimal_number
+
+
+def func_to_hex(dec_hex, x):
+    x_hex = x % 16
+    rest = x // 16
+    if rest == 0:
+        return dec_hex[str(x_hex)]
+    return func_to_hex(dec_hex, rest) + dec_hex[str(x_hex)]
+
+
+a = list(input('Введите 1-е шестнадцатиричное число: ').upper())
+b = list(input('Введите 2-е шестнадцатиричное число: ').upper())
+
 task_dec = list([str(i) for i in range(0, 16, 1)])
 task_hex = list('ABCDEF')
 hexdec = dict(zip((task_dec[:10] + task_hex), task_dec))
 dechex = dict(zip(task_dec, (task_dec[:10] + task_hex)))
-# a = list('12FD')
-# b = list('234')
-a = list('12F')
-b= list('234D')
 
 result_sum = func_hex_sum(hexdec, dechex, a, b)
-print('Сумма чисел равна', f'{result_sum}')
+result_mul = func_to_hex(dechex, (func_to_dec(hexdec, a) * func_to_dec(hexdec, b)))
+res_x = deque()
+for i in result_mul:
+    if len(result_mul) != 0:
+        res_x.append(i)
 
-# print(*a, '+', *b, '=', *sum_hex(a, b))
-
+print('Сумма чисел равна:           ', f'{result_sum}')
+print('Произведение чисел равно:    ', f'{list(res_x)}')
