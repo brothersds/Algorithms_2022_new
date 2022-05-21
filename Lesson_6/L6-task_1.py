@@ -3,10 +3,13 @@
 Проанализировать результат и определить программы с наиболее эффективным использованием памяти.
 """
 
+import sys
 from collections import deque
 
 
-def func_hex_sum(x, y):
+def func_task_one():
+    x = list(input('Введите 1-е шестнадцатиричное число: ').upper())
+    y = list(input('Введите 2-е шестнадцатиричное число: ').upper())
     hex_dec = dict(
         zip((list([str(i) for i in range(0, 10, 1)]) + list('ABCDEF')), list([str(i) for i in range(0, 16, 1)])))
     dec_hex = dict(
@@ -30,9 +33,24 @@ def func_hex_sum(x, y):
             res_sum.appendleft(dec_hex[str(res)])
     if transfer_number == 1:
         res_sum.appendleft('1')
-    return list(res_sum)
+
+    print('Сумма чисел равна: ', f'{list(res_sum)}')
+    memory_size = func_calc_memory(locals())
+
+    return memory_size
 
 
-a = list(input('Введите 1-е шестнадцатиричное число: ').upper())
-b = list(input('Введите 2-е шестнадцатиричное число: ').upper())
-print('Сумма чисел равна: ', f'{func_hex_sum(a, b)}')
+def func_calc_memory(data):
+    sum_size = 0
+    if hasattr(data, '__iter__'):
+        if hasattr(data, 'items'):
+            for key, value in data.items():
+                sum_size += sys.getsizeof(key, default=0)
+                sum_size += sys.getsizeof(value, default=0)
+        elif not isinstance(data, str):
+            for item in data:
+                sum_size += sys.getsizeof(item, default=0)
+    return sum_size
+
+
+print('Суммарная выделенная память под переменные: ', func_task_one())
